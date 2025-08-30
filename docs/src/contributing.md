@@ -46,12 +46,12 @@ You can view the documentation by opening the file `<project_directory>/docs/bui
 
 ## Using a pre-commit hook to format your code
 
-We use [`JuliaFormatter`](https://github.com/domluna/JuliaFormatter.jl) to format our code in a
-consistent way. It can be annoying to remember to run this every time you make code changes. A 
-solution is to create a pre-commit hook in your development workflow. This checks and updates
-the formatting of any code that you are trying to commit to the project, *before* you commit it.
+We use [`JuliaFormatter`](https://github.com/domluna/JuliaFormatter.jl) to format our code in a consistent way.
+It can be annoying to remember to run this every time you make code changes.
+A solution is to create a pre-commit hook in your development workflow.
+This checks and updates the formatting of any code that you are trying to commit to the project, *before* you commit it.
 
-To set this up, you need to install pre-commit. One way to do this is using `uvx`. First, 
-[install uv](https://docs.astral.sh/uv/getting-started/installation/). Then, go to the Skyrmions3D.jl
-folder using Terminal and run `uvx pre-commit install`. This will set up a "hook" so that 
-the pre-commit defined in `.pre-commit-config.yaml` will run before you `git commit` any files.
+To set this up, you need to install pre-commit.
+One way to do this is using `uvx`.
+First, [install uv](https://docs.astral.sh/uv/getting-started/installation/).
+Then, go to the Skyrmions3D.jl folder using Terminal and run `uvx pre-commit install`. This will set up a "hook" so that the pre-commit defined in `.pre-commit-config.yaml` will run before you `git commit` any files.
