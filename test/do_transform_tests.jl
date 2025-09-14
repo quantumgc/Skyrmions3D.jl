@@ -72,8 +72,8 @@ make_rational_map!(b_skyrmion, p, q, f, X = [0.2, 0.0, 0.0])
 center_skyrmion!(a_skyrmion)
 @test center_of_mass(a_skyrmion) ≈ [0.0, 0.0, 0.0]
 
-
-Skyrmions3D.set_dirichlet_boudary!(b_skyrmion, vac = [2.0, 0.2, -0.3, 0.5])
+b_skyrmion.vac = [2.0, 0.2, -0.3, 0.5]
+Skyrmions3D.set_dirichlet_vacuum!(b_skyrmion)
 @test b_skyrmion.pion_field[1, 1, 1, :] == [2.0, 0.2, -0.3, 0.5]
 
 

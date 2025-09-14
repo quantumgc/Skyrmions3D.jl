@@ -1,21 +1,30 @@
 
 using Skyrmions3D
+using Test
+
+
+function test_if_skyrmions_equal(a_skyrmion, b_skyrmion)
+
+    @test a_skyrmion.pion_field == b_skyrmion.pion_field
+    @test a_skyrmion.grid.lp == b_skyrmion.grid.lp
+    @test a_skyrmion.grid.ls == b_skyrmion.grid.ls
+    @test a_skyrmion.mpi == b_skyrmion.mpi
+    @test a_skyrmion.Fpi == b_skyrmion.Fpi
+    @test a_skyrmion.ee == b_skyrmion.ee
+    @test a_skyrmion.physical == b_skyrmion.physical
+    @test a_skyrmion.grid.dirichlet == b_skyrmion.grid.dirichlet
+    @test a_skyrmion.grid.index_grid_x == b_skyrmion.grid.index_grid_x
+    @test a_skyrmion.grid.index_grid_y == b_skyrmion.grid.index_grid_y
+    @test a_skyrmion.grid.index_grid_z == b_skyrmion.grid.index_grid_z
+    @test a_skyrmion.grid.sum_grid == b_skyrmion.grid.sum_grid
+    @test a_skyrmion.vac == b_skyrmion.vac
+
+end
 
 a_skyrmion = Skyrmion(5, 0.2)
 the_same_skyrmion = Skyrmion([5, 5, 5], [0.2, 0.2, 0.2])
 
-@test a_skyrmion.pion_field == the_same_skyrmion.pion_field
-@test a_skyrmion.grid.lp == the_same_skyrmion.grid.lp
-@test a_skyrmion.grid.ls == the_same_skyrmion.grid.ls
-@test a_skyrmion.mpi == the_same_skyrmion.mpi
-@test a_skyrmion.Fpi == the_same_skyrmion.Fpi
-@test a_skyrmion.ee == the_same_skyrmion.ee
-@test a_skyrmion.physical == the_same_skyrmion.physical
-@test a_skyrmion.grid.dirichlet == the_same_skyrmion.grid.dirichlet
-@test a_skyrmion.grid.index_grid_x == the_same_skyrmion.grid.index_grid_x
-@test a_skyrmion.grid.index_grid_y == the_same_skyrmion.grid.index_grid_y
-@test a_skyrmion.grid.index_grid_z == the_same_skyrmion.grid.index_grid_z
-@test a_skyrmion.grid.sum_grid == the_same_skyrmion.grid.sum_grid
+test_if_skyrmions_equal(a_skyrmion, the_same_skyrmion)
 
 # setting stuff
 
@@ -94,3 +103,16 @@ check_if_normalised(a_skyrmion)
 
 a_skyrmion.pion_field[2, 3, 1, 1] = 2.0
 check_if_normalised(normer(a_skyrmion))
+
+
+# wrapper to make a temp directory, which will deleted when tests are completed.
+mktempdir() do tmpdir
+    # Your save/load tests here
+
+    filepath = joinpath(tmpdir, "basic_save")
+    save_skyrmion(a_skyrmion, filepath)
+    loaded_skyrmion = load_skyrmion(filepath)
+
+    test_if_skyrmions_equal(a_skyrmion, loaded_skyrmion)
+
+end
