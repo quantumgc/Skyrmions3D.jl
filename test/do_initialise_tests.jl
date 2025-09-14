@@ -1,7 +1,5 @@
 
-using Skyrmions3D
-using Test
-
+using TOML, Skyrmions3D
 
 function test_if_skyrmions_equal(a_skyrmion, b_skyrmion)
 
@@ -107,12 +105,22 @@ check_if_normalised(normer(a_skyrmion))
 
 # wrapper to make a temp directory, which will deleted when tests are completed.
 mktempdir() do tmpdir
-    # Your save/load tests here
 
     filepath = joinpath(tmpdir, "basic_save")
     save_skyrmion(a_skyrmion, filepath)
     loaded_skyrmion = load_skyrmion(filepath)
-
     test_if_skyrmions_equal(a_skyrmion, loaded_skyrmion)
+
+    filepath = joinpath(tmpdir, "with_user_metadata")
+    save_skyrmion(a_skyrmion, filepath, additional_metadata = Dict("some" => "metadata"))
+    loaded_skyrmion = load_skyrmion(filepath)
+    test_if_skyrmions_equal(a_skyrmion, loaded_skyrmion)
+
+    metadata = nothing
+    open(joinpath(filepath, "metadata.toml"), "r") do io
+        metadata = TOML.parse(io)
+    end
+    @test metadata["additional_metadata"]["some"] == "metadata"
+
 
 end
