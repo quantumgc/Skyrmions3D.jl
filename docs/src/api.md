@@ -9,6 +9,13 @@ Skyrmion
 Grid
 ```
 
+## Save/load
+
+```@docs
+save_skyrmion
+load_skyrmion
+```
+
 ## Set up the system
 
 ```@docs
