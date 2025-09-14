@@ -190,7 +190,7 @@ function make_rational_map!(
     end
 
     if skyrmion.grid.boundary_conditions == "dirichlet"
-        set_dirichlet_boudary!(skyrmion)
+        set_dirichlet_vacuum!(skyrmion)
     end
 
 end
@@ -395,7 +395,7 @@ function make_ADHM!(an_ADHM_skyrmion, L, M = nothing; tsteps = 42)
         B = size(L)[2]
         M = L[2:(B+1), 1:B]
         L = L[1, 1:B]
-    end 
+    end
 
     B = size(L)[1]
 

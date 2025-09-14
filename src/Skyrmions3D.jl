@@ -11,7 +11,7 @@ using TOML, HDF5
 
 export Skyrmion,
     get_grid, get_field, set_mpi!, set_lattice!, set_Fpi!, set_ee!, set_physical!
-export set_periodic!, set_dirichlet!, set_neumann!, set_bounary_conditions!
+export set_periodic!, set_dirichlet!, set_neumann!, set_boundary_conditions!
 export check_if_normalised, normer!, normer
 export save_skyrmion, load_skyrmion
 
@@ -69,6 +69,7 @@ mutable struct Skyrmion
     Fpi::Float64
     ee::Float64
     physical::Bool
+    vac::Vector{Float64}
 end
 
 
@@ -87,6 +88,7 @@ Skyrmion(
     Fpi,
     ee,
     false,
+    vac,
 )
 
 Skyrmion(
@@ -104,6 +106,7 @@ Skyrmion(
     Fpi,
     ee,
     false,
+    vac,
 )
 
 """
@@ -140,6 +143,7 @@ function save_skyrmion(skyrmion, folder; additional_metadata = Dict(), overwrite
 
     skyrmion_metadata = Dict(
         "grid" => grid_metadata,
+        "vac" => skyrmion.vac,
         "Fpi" => skyrmion.Fpi,
         "ee" => skyrmion.ee,
         "mpi" => skyrmion.mpi,
@@ -191,6 +195,7 @@ function load_skyrmion(folder)
     ls = metadata["grid"]["ls"]
     boundary_conditions = metadata["grid"]["boundary_conditions"]
 
+    vac = metadata["vac"]
     mpi = metadata["mpi"]
     ee = metadata["ee"]
     Fpi = metadata["Fpi"]
@@ -203,10 +208,11 @@ function load_skyrmion(folder)
         mpi = mpi,
         ee = ee,
         Fpi = Fpi,
+        vac = vac,
     )
 
     set_physical!(loaded_skyrmion, physical)
-
+    set_boundary_conditions!(loaded_skyrmion, boundary_conditions)
     pion_field = h5read(joinpath(folder, "pion_field.h5"), "pion_field")
     loaded_skyrmion.pion_field = pion_field
 
@@ -283,7 +289,7 @@ end
 
 
 
-function set_bounary_conditions!(sk::Skyrmion, boundary_conditions::String)
+function set_boundary_conditions!(sk::Skyrmion, boundary_conditions::String)
 
     sk.grid.boundary_conditions = boundary_conditions
     sk.grid.sum_grid = sum_grid(sk.grid.lp, boundary_conditions)
@@ -303,14 +309,14 @@ function set_periodic!(sk::Skyrmion)
 
     sk.grid.dirichlet = false
 
-    set_bounary_conditions!(sk, "periodic")
+    set_boundary_conditions!(sk, "periodic")
 
     println("Periodic boundary conditions activated")
 
 end
 
 """
-    set_dirichlet!(skyrmion::Skyrmion)
+    set_neumann!(skyrmion::Skyrmion)
 
 Sets the `skyrmion` to have Dirichlet boundary conditions.
 
@@ -319,7 +325,7 @@ function set_neumann!(sk::Skyrmion)
 
     sk.grid.dirichlet = false
 
-    set_bounary_conditions!(sk, "neumann")
+    set_boundary_conditions!(sk, "neumann")
 
     println("Neumann boundary conditions activated")
 
@@ -335,11 +341,8 @@ function set_dirichlet!(sk::Skyrmion)
 
     sk.grid.dirichlet = true
 
-    sk.grid.boundary_conditions = "dirichlet"
-    sk.grid.sum_grid = sum_grid(sk.grid.lp, sk.grid.boundary_conditions)
-
-    set_dirichlet_boudary!(sk)
-    println("Dirichlet boundary conditions activated")
+    set_boundary_conditions!(sk, "dirichlet")
+    set_dirichlet_vacuum!(sk)
 
 end
 
