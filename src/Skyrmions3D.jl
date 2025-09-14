@@ -106,7 +106,17 @@ Skyrmion(
     false,
 )
 
-function save_skyrmion(skyrmion, folder; overwrite = false)
+"""
+    save_skyrmion(skyrmion::Skyrmion, folder, overwrite, additional_metadata)
+
+Save a skyrmion to a folder `folder`. If `overwrite` is `true`, function will delete the given
+folder (if valid Skyrmion3D output) and replace with new data. User can specify additional metadata
+by specifying a dict `additional_metadata`.
+
+See also [`load_skyrmion`](@ref). 
+
+"""
+function save_skyrmion(skyrmion, folder; additional_metadata = Dict(), overwrite = false)
 
     if (overwrite == false) & isdir(folder)
         @warn "Folder already exists. To overwrite pass `overwrite = true` to the save funciton."
@@ -134,6 +144,7 @@ function save_skyrmion(skyrmion, folder; overwrite = false)
         "ee" => skyrmion.ee,
         "mpi" => skyrmion.mpi,
         "physical" => skyrmion.physical,
+        "additional_metadata" => additional_metadata,
     )
 
     open(joinpath(folder, "metadata.toml"), "w") do io
@@ -154,7 +165,14 @@ function save_skyrmion(skyrmion, folder; overwrite = false)
 
 end
 
+"""
+    load_skyrmion(folder)
 
+Loads a Skyrmion, which has been previously saved in `folder`. Returns the loaded skyrmion.
+
+See also [`save_skyrmion`](@ref). 
+
+"""
 function load_skyrmion(folder)
 
     metadata_path = joinpath(folder, "metadata.toml")
