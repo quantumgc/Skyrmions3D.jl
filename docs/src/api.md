@@ -2,88 +2,64 @@
 
 Here are all the exported functions of Skyrmions3D.
 
-## Types
+## Basic operations
 
-```@docs
-Skyrmion
-Grid
+```@autodocs
+Modules = [Skyrmions3D]
+Pages   = ["Skyrmions3D.jl"]
+Order   = [:type, :function]
+Private = false
 ```
 
-## Set up the system
-
-```@docs
-set_lattice!
-set_dirichlet!
-set_neumann!
-set_periodic!
-set_mpi!
-set_physical!
-set_Fpi!
-set_ee!
-```
-
-## Getters and checkers
-```@docs
-get_grid
-check_if_normalised
-get_field
+## Grid
+```@autodocs
+Modules = [Skyrmions3D]
+Pages   = ["grid.jl"]
+Order   = [:type, :function]
+Private = false
 ```
 
 ## Create
 
-```@docs
-make_rational_map!
-make_RM_product!
-make_ADHM!
-product_approx!
-product_approx
+```@autodocs
+Modules = [Skyrmions3D]
+Pages   = ["initialise.jl"]
+Order   = [:type, :function]
+Private = false
 ```
 
 ## Transform
 
-```@docs
-translate_sk!
-translate_sk
-rotate_sk!
-rotate_sk
-isorotate_sk!
-isorotate_sk
-center_skyrmion!
-evaluate_sk
-quadratic_spline_interpolation
-normer
-normer!
+```@autodocs
+Modules = [Skyrmions3D]
+Pages   = ["transform.jl"]
+Order   = [:type, :function]
+Private = false
 ```
 
-## Probe
+## Properties
 
-```@docs
-overview
-Energy
-get_energy_density!
-Baryon
-get_baryon_density!
-center_of_mass
-compute_current
-rms_baryon
+```@autodocs
+Modules = [Skyrmions3D]
+Pages   = ["properties.jl"]
+Order   = [:type, :function]
+Private = false
 ```
 
 ## Flow
 
-```@docs
-gradient_flow!
-arrested_newton_flow!
+```@autodocs
+Modules = [Skyrmions3D]
+Pages   = ["diff.jl", "derivatives.jl"]
+Order   = [:type, :function]
+Private = false
 ```
 
 ## Visualise
 
-```@docs
-plot_overview
-plot_field
-plot_baryon_density
-```
-
-## Helpers
-```@docs
-R_from_axis_angle
+```@autodocs
+Modules = [Skyrmions3D]
+Pages   = ["plotting.jl"]
+Order   = [:type, :function]
+Private = false
 ```
