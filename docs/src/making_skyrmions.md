@@ -1,3 +1,10 @@
+```@meta
+DocTestSetup = quote
+    using Skyrmions3D
+end
+ShareDefaultModule = true
+```
+
 # Make, save and load Skyrmions
 
 Skyrmions in Skyrmions3D are represented by the `Skyrmion` struct.
@@ -24,10 +31,21 @@ massive_periodic_skyrmion = Skyrmion(
 
 Find out more about the Skyrmion constructor in the API. 
 
+```@meta
+DocTestSetup = nothing
+DocTestTeardown = nothing
+```
+
 By default the pion field is set equal to `(0,0,0,1)`, which is that of a vacuum skyrmion.
 So we next want to add some field structure to it...
 
 ## Rational Maps
+
+```@meta
+DocTestSetup = quote
+    using Skyrmions3D
+end
+```
 
 A complex rational map is defined by two complex valued polynomials; we call these the numerator `p(z)` and the denominator `q(z)`.
 For example, the baryon number 3 tetrahedral skyrmion can be constructed as follows:
@@ -53,8 +71,18 @@ Energy(my_skyrmion)
 Find out more about computing skyrmion properties in the (computing properties section)[].
 
 The `make_rational_map!` function also accepts custom profile functions.
+```@meta
+DocTestSetup = nothing
+DocTestTeardown = nothing
+```
 
 ## ADHM data
+
+```@meta
+DocTestSetup = quote
+    using Skyrmions3D
+end
+```
 
 ADHM skyrmions [corkADHMSkyrmions2022](@cite) are skyrmions generated from ADHM data.
 The data consists of symmetric quaternionic matrices which satisfy a constraint.
@@ -79,6 +107,12 @@ adhm_data[3,1] = Quaternion(0.0,1.0,0.0,0.0)*lam/sqrt(2)
 adhm_data[3,2] = Quaternion(-1.0,0.0,0.0,0.0)*lam/sqrt(2)
 
 make_ADHM!(my_skyrmion, adhm_data)
+```
+
+```@meta
+ShareDefaultModule = false
+DocTestSetup = nothing
+DocTestTeardown = nothing
 ```
 
 ## Save your Skyrmion
