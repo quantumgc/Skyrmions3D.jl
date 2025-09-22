@@ -71,6 +71,7 @@ There are various ways to add structure to it.
 DocTestSetup = quote
     using Skyrmions3D
 end
+DocTestFilters = r"(\d*)\.(\d{4})\d+" => s"\1.\2***"
 ```
 
 A complex rational map is defined by two complex valued polynomials; we call these the numerator `p(z)` and the denominator `q(z)`.
@@ -120,6 +121,7 @@ julia> Energy(b_1_hedgehog)
 ```@meta
 DocTestSetup = nothing
 DocTestTeardown = nothing
+DocTestFilters = nothing
 ```
 
 ## ADHM data
@@ -128,6 +130,7 @@ DocTestTeardown = nothing
 DocTestSetup = quote
     using Skyrmions3D
 end
+DocTestFilters = r"(\d*)\.(\d{4})\d+" => s"\1.\2***"
 ```
 
 ADHM skyrmions [corkADHMSkyrmions2022](@cite) are skyrmions generated from ADHM data.
@@ -169,6 +172,7 @@ julia> Energy(b_1_tor_skyrmion)
 ShareDefaultModule = false
 DocTestSetup = nothing
 DocTestTeardown = nothing
+DocTestFilters = nothing
 ```
 
 ## Save your Skyrmion
