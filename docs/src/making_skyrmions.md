@@ -9,26 +9,52 @@ ShareDefaultModule = true
 
 Skyrmions in Skyrmions3D are represented by the [`Skyrmion`](@ref) struct.
 This contains all the information needed to reproduce the skyrmion: it's pion field, grid, pion mass etc.
-You can create a Skyrmion by passing some of these parameters, for example
+For example, we can create a vacuum skyrmion on a `30×30×30` grid with lattice spacing `0.2`.
 
-``` julia
- # A skyrmion on a 30^3 grid with lattice spacing 0.2
-my_skyrmion = Skyrmion(30,0.2)
+```jldoctest basic_init
+julia> my_skyrmion = Skyrmion(30,0.2);
 
-# A skyrmion on a 60x60x120 grid with lattice spacing 0.15
-another_skyrmion = Skyrmion([60,60,120],[0.15,0.15,0.15]) 
+julia> overview(my_skyrmion)
+This skyrmion is on a 30x30x30 grid, with lattice spacing [0.2, 0.2, 0.2].
+The boundary conditions are dirichlet
 
-# A skyrmion with pion mass 1 and periodic bounary conditions
-massive_periodic_skyrmion = Skyrmion(
-    [30,30,30],
-    [0.2,0.2,0.2], 
-    mpi=1.0, 
-    boundary_conditions="periodic",
-    Fpi=184, 
-    ee=4.5,
-)
+            m = 0.0
+Baryon number = 0.0
+       Energy = 0.0
+   Baryon rms = 0.0
+
+With physical constants Fpi = 180.0 and e = 4.0,
+the energy and length units are 11.25 MeV and 0.5472 fm.
+So physical E = 0.0 MeV.
+   Baryon rms = 0.0 fm.
+```
+The [`overview`](@ref) function computes and prints a brief description of a skyrmion's properties.
+We'll look at these properties in more detail in [Properties](@ref tut/props).
+
+The underlying grid for the skyrmion does not need to be uniform.
+```jldoctest basic_init
+julia> another_skyrmion = Skyrmion([60,60,120],[0.2,0.2,0.1]);
+
 ```
 
+We can also set some of the skyrmions properties in the constructor.
+```jldoctest basic_init
+julia> massive_periodic_skyrmion = Skyrmion([30,30,30], [0.2,0.2,0.2], mpi=1.0, boundary_conditions="periodic", Fpi=184, ee=4.5,);
+
+julia> overview(massive_periodic_skyrmion)
+This skyrmion is on a 30x30x30 grid, with lattice spacing [0.2, 0.2, 0.2].
+The boundary conditions are periodic
+
+            m = 1.0
+Baryon number = 0.0
+       Energy = 0.0
+   Baryon rms = 0.0
+
+With physical constants Fpi = 184.0 and e = 4.5,
+the energy and length units are 10.22 MeV and 0.4758 fm.
+So physical E = 0.0 MeV.
+   Baryon rms = 0.0 fm.
+```
 You can find a full overview of the properties exposed by the [`Skyrmion`](@ref) constructor on its [API page](@ref Skyrmion).
 
 ```@meta
