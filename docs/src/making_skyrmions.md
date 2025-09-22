@@ -86,9 +86,11 @@ I think your baryon number is 3.0. If it is not, include '; baryon=B' in your ar
 ```
 
 Note: By convention the "bang" character `!` at the end of function means it is a _modifiying function_.
-So we are modifiying `my_skyrmion`, not creating a new skyrmion.
+So we are modifiying `b_1_tet_skyrmion`, not creating a new skyrmion.
 
-The `make_rational_map!` function tries to estimate the degree of the rational map, and tries to find a reasonable profile function for it.
+The [`make_rational_map!`](@ref) function tries to estimate the degree of the rational map and warns us that it is doing so.
+Note that we can explicitly set the baryon number with the keyword argument `baryon = B` if it doesn't choose the baryon number you were expecting.
+[`make_rational_map!`](@ref) then tries to find a reasonable profile function for the skyrmion.
 If this all worked, you should get a sensible output when you compute the energy of the skyrmion.
 ```jldoctest rat_map
 julia> Energy(b_1_tet_skyrmion)
