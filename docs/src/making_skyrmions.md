@@ -97,9 +97,26 @@ julia> Energy(b_1_tet_skyrmion)
 3.684801341143756
 ```
 
-Find out more about computing skyrmion properties in the (computing properties section)[].
+```@meta
+DocTestSetup = quote
+    using Skyrmions3D
+    function hedgehog_profile(x)
+        x
+    end
+end
+```
+[`make_rational_map!`](@ref) also accepts custom profile functions.
+For example, suppose the function `hedgehog_profile` is a numerical approximation for the profile function of the `B=1` hedgehog skyrmion.
+```jldoctest rat_map_prof
+julia> b_1_hedgehog = Skyrmion(30, 0.2);
 
-The `make_rational_map!` function also accepts custom profile functions.
+julia> make_rational_map!(b_1_hedgehog, (z -> z), (z -> 1))
+I think your baryon number is 1.0. If it is not, include '; baryon=B' in your argument.
+
+julia> Energy(b_1_hedgehog)
+1.2941351906556215
+```
+
 ```@meta
 DocTestSetup = nothing
 DocTestTeardown = nothing
