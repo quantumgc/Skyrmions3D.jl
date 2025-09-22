@@ -7,7 +7,7 @@ ShareDefaultModule = true
 
 # Make, save and load Skyrmions
 
-Skyrmions in Skyrmions3D are represented by the `Skyrmion` struct.
+Skyrmions in Skyrmions3D are represented by the [`Skyrmion`](@ref) struct.
 This contains all the information needed to reproduce the skyrmion: it's pion field, grid, pion mass etc.
 You can create a Skyrmion by passing some of these parameters, for example
 
@@ -29,7 +29,7 @@ massive_periodic_skyrmion = Skyrmion(
 )
 ```
 
-Find out more about the Skyrmion constructor in the API. 
+You can find a full overview of the properties exposed by the [`Skyrmion`](@ref) constructor on its [API page](@ref Skyrmion).
 
 ```@meta
 DocTestSetup = nothing
@@ -37,7 +37,7 @@ DocTestTeardown = nothing
 ```
 
 By default the pion field is set equal to `(0,0,0,1)`, which is that of a vacuum skyrmion.
-So we next want to add some field structure to it...
+There are various ways to add structure to it.
 
 ## Rational Maps
 
@@ -48,8 +48,8 @@ end
 ```
 
 A complex rational map is defined by two complex valued polynomials; we call these the numerator `p(z)` and the denominator `q(z)`.
-For example, the baryon number 3 tetrahedral skyrmion can be constructed as follows:
 Given these polynomials, we can create a skyrmion from the rational map approximation [houghtonRationalMapsMonopoles1998](@cite).
+For example, we can make a new skyrmion and give it the structure of the baryon number 3 tetrahedral skyrmion as follows:
 
 ``` julia
 p3(z) = sqrt(3)*im*z^2 - 1
