@@ -135,8 +135,7 @@ The data consists of symmetric quaternionic matrices which satisfy a constraint.
 Most highly symmetric skyrmions can be represented by ADHM data.
 This package implements the very efficient parallel transport algorithm written by [Harland2023](@citet).
 We can make the baryon number 2 toroidal skyrmion as follows:
-
-``` julia
+```jldoctest adhm_data; output = false
 using Quaternions
 
 B=2
@@ -152,7 +151,18 @@ adhm_data[2,2] = Quaternion(0.0,1.0,0.0,0.0)*lam/sqrt(2)
 adhm_data[3,1] = Quaternion(0.0,1.0,0.0,0.0)*lam/sqrt(2)
 adhm_data[3,2] = Quaternion(-1.0,0.0,0.0,0.0)*lam/sqrt(2)
 
-make_ADHM!(my_skyrmion, adhm_data)
+b_1_tor_skyrmion = Skyrmion(30,0.2);
+make_ADHM!(b_1_tor_skyrmion, adhm_data)
+
+# output
+
+
+```
+
+Again, we can calculate its energy.
+```jldoctest adhm_data
+julia> Energy(b_1_tor_skyrmion)
+2.3885880515156876
 ```
 
 ```@meta
