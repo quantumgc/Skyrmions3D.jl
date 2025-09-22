@@ -6,7 +6,7 @@ bib = CitationBibliography(
 )
 
 makedocs(
-    doctest = false,
+    warnonly=:doctest,
     modules = [Skyrmions3D],
     format = Documenter.HTML(prettyurls = get(ENV, "CI", nothing) == "true"),
     sitename = "Skyrmion3d.jl",
