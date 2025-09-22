@@ -76,11 +76,13 @@ end
 A complex rational map is defined by two complex valued polynomials; we call these the numerator `p(z)` and the denominator `q(z)`.
 Given these polynomials, we can create a skyrmion from the rational map approximation [houghtonRationalMapsMonopoles1998](@cite).
 For example, we can make a new skyrmion and give it the structure of the baryon number 3 tetrahedral skyrmion as follows:
+```jldoctest rat_map
+julia> b_1_tet_skyrmion = Skyrmion(30,0.2);
 
-``` julia
-p3(z) = sqrt(3)*im*z^2 - 1
-q3(z) = z*(z^2 - sqrt(3)*im)
-make_rational_map!(my_skyrmion, p3, q3)
+julia> p3(z) = sqrt(3)*im*z^2 - 1; q3(z) = z*(z^2 - sqrt(3)*im);
+
+julia> make_rational_map!(b_1_tet_skyrmion, p3, q3)
+I think your baryon number is 3.0. If it is not, include '; baryon=B' in your argument.
 ```
 
 Note: By convention the "bang" character `!` at the end of function means it is a _modifiying function_.
@@ -88,10 +90,9 @@ So we are modifiying `my_skyrmion`, not creating a new skyrmion.
 
 The `make_rational_map!` function tries to estimate the degree of the rational map, and tries to find a reasonable profile function for it.
 If this all worked, you should get a sensible output when you compute the energy of the skyrmion.
-
-``` julia
-Energy(my_skyrmion)
->>> 4.106354608768089
+```jldoctest rat_map
+julia> Energy(b_1_tet_skyrmion)
+3.684801341143756
 ```
 
 Find out more about computing skyrmion properties in the (computing properties section)[].
