@@ -30,8 +30,8 @@ So we next want to add some field structure to it...
 ## Rational Maps
 
 A complex rational map is defined by two complex valued polynomials; we call these the numerator `p(z)` and the denominator `q(z)`.
-Given these polynomials, we can create a skyrmion from the [houghtonRationalMapsMonopoles1998](@cite).
 For example, the baryon number 3 tetrahedral skyrmion can be constructed as follows:
+Given these polynomials, we can create a skyrmion from the rational map approximation [houghtonRationalMapsMonopoles1998](@cite).
 
 ``` julia
 p3(z) = sqrt(3)*im*z^2 - 1
@@ -56,10 +56,10 @@ The `make_rational_map!` function also accepts custom profile functions.
 
 ## ADHM data
 
-[corkADHMSkyrmions2022](@cite) are skyrmions generated from ADHM data.
+ADHM skyrmions [corkADHMSkyrmions2022](@cite) are skyrmions generated from ADHM data.
 The data consists of symmetric quaternionic matrices which satisfy a constraint.
 Most highly symmetric skyrmions can be represented by ADHM data.
-This package implements the very efficient [Harland2023](@citet) algorithm from Derek Harland.
+This package implements the very efficient parallel transport algorithm written by [Harland2023](@citet).
 We can make the baryon number 2 toroidal skyrmion as follows:
 
 ``` julia
