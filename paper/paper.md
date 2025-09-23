@@ -25,7 +25,6 @@ bibliography: paper.bib
 ---
 
 # Summary
-*A summary describing the high-level functionality and purpose of the software for a diverse, non-specialist audience.*
 
 
 Solitons are solutions to partial differential equations which behave like particles in certain ways: they have finite extent, a well defined centre of mass and momentum, and they retain their shape after scattering off each other. Skyrmions were introduced in the 1960s as topological solitons which serve as low-energy models of nuclei. Mathematically they are defined as smooth maps $U: \mathbb{R}^3 \to \mathrm{SU}(2)$ which minimise a certain integral (the Skyrme energy) subject to boundary conditions which topologically stabilise the field $U$ so as to prevent it only occupying the vacuum solution $U=1$. Analytically writing down skyrmions fields is difficult and accordingly many approximation of skyrmions fields, using for example rational maps or the ADHM data of instantons, have been proposed. 
@@ -33,7 +32,6 @@ Solitons are solutions to partial differential equations which behave like parti
 `Skyrmions3D.jl` allows for the creation, transformation, and visualisation of skyrmions generated via various approximations already provided in the package. Moreover, the implementation is written flexibly so as to allow users to investigate their own novel skyrmion approximations. Underlying algorithms are state of the art, and written so as to exploit efficiencies of Julia. 
 
 # Statement of need
-*A Statement of need section that clearly illustrates the research purpose of the software and places it in the context of related work.*
 
 
 Computational tools have long been important to the study of topological solitons due to the many complicated high-dimensional integrals which must be executed in order to determine even fundamental properties of a soliton such as its energy. This difficulty is compounded in the study of skyrmions, where exact Skyrme fields are not available. Despite such a necessity, aside from `Skyrmions3D.jl` there are no open-source packages available for the study of 3-dimensional skyrmions. This is a marked difference to the study of other solitons where a variety of tools exist, for example 2-dimensional magnetic skyrmions (e.g. [@Beg2022], [@CortesOrtuno2019], [@KanaszNagy2015]), monopoles (e.g. [@DisneyHogg2023], [@Garcia2025], [@Lang2020]), and vortices (e.g. [@GonzalezArroyo2004], [@GonzalezArroyo2007], [@Stoica2013]). 
@@ -41,10 +39,6 @@ Computational tools have long been important to the study of topological soliton
 As such `Skyrmions3D.jl` provides a tool which lowers barriers to skyrmion research presented by the computational skill required, prevents inefficies arising from duplication of software, supports rigorous science by making source code open, and aids reproducibility across publications. 
 
 # Background
-*A bit of background about skyrmions, their mathematics, and existing work.*
-*A list of key references, including to other software addressing related needs. Note that the references should include full names of venues, e.g., journals and conferences, not abbreviations only understood in the context of a specific discipline.*
-*Note that the paper begins by a metadata section (the enclosing — lines are mandatory) and ends with a References heading, and the references are built automatically from the content in the .bib file. You should enter in-text citations in the paper body following correct Markdown citation syntax. Also note that the references include full names of venues, e.g., journals and conferences, not abbreviations only understood in the context of a specific discipline.*
-*Mention (if applicable) a representative set of past or ongoing research projects using the software and recent scholarly publications enabled by it.*
 
 
 The Skyrme model is a non-linear sigma model with field $U: \mathbb{R}^3 \to \mathrm{SU}(2)$, designed such that the topolocial solitons serve as models of baryons: an element in $SU(2)$ may be considered as a unit quaternion, and the coefficients of its imaginary parts are taken to be pion fields. Upon imposing a boundary condition that $\lim_{|x| \to \infty} U(x) = 1$, $U$ determines a map $S^3 \to S^3$ and the integer which determines the homotopy class of that map in $\pi_3(S^3) \cong \mathbb{Z}$ is to be interpreted as the baryon number. The skyrmions are the fields which minimise the Skyrme energy 
@@ -75,7 +69,6 @@ While many of the underlying numerical methods are standard applications, there 
 Future work on the package shall focus on allowing modifications to the Skyrme action which make binding energies more realist, see for example [@Gudnason2020]. 
 
 # Acknowledgements
-*Acknowledgement of any financial support.*
 
 
 The research of LDH is supported by a UK Engineering and Physical Sciences Research Council (EPSRC) doctoral prize fellowship.
