@@ -7,7 +7,7 @@ makedocs(
     authors = "Chris Halcrow",
     pages = [
         "Home" => "index.md",
-        "Create Skyrmion" => "making_skyrmions.md",
+        "Make, save and load" => "making_skyrmions.md",
         "Transform and Combine" => "transform.md",
         "Compute properties" => "properties.md",
         "Flow" => "flow.md",
@@ -17,7 +17,7 @@ makedocs(
         "Contribute" => "contributing.md",
     ],
     repo = Documenter.Remotes.GitHub("chrishalcrow", "Skyrmions3D.jl"),
-    checkdocs=:exports,
+    checkdocs = :exports,
 )
 
 deploydocs(; repo = "github.com/chrishalcrow/Skyrmions3D.jl")

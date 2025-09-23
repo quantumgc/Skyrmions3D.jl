@@ -80,7 +80,8 @@ make_rational_map!(b_skyrmion, p, q, f, X = [0.2, 0.0, 0.0])
 b_skyrmion = Skyrmion(6, 0.2)
 set_neumann!(b_skyrmion)
 make_rational_map!(b_skyrmion, p, q, f)
-Skyrmions3D.set_dirichlet_boudary!(b_skyrmion, vac = [2.0, 0.2, -0.3, 0.5])
+b_skyrmion.vac = [2.0, 0.2, -0.3, 0.5]
+Skyrmions3D.set_dirichlet_vacuum!(b_skyrmion)
 @test b_skyrmion.pion_field[1, 1, 1, :] == [2.0, 0.2, -0.3, 0.5]
 
 

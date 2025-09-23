@@ -6,10 +6,14 @@ using Makie, CairoMakie, Requires, Meshing, GeometryBasics, Colors
 # Functionality
 using StaticArrays, LinearAlgebra, Interpolations
 
+# Save/load
+using TOML, HDF5
+
 export Skyrmion,
     get_grid, get_field, set_mpi!, set_lattice!, set_Fpi!, set_ee!, set_physical!
-export set_periodic!, set_dirichlet!, set_neumann!, set_bounary_conditions!
+export set_periodic!, set_dirichlet!, set_neumann!, set_boundary_conditions!
 export check_if_normalised, normer!, normer
+export save_skyrmion, load_skyrmion
 
 include("transform.jl")
 export translate_sk, translate_sk!, isorotate_sk, isorotate_sk!, rotate_sk!, rotate_sk
@@ -66,6 +70,7 @@ mutable struct Skyrmion
     Fpi::Float64
     ee::Float64
     physical::Bool
+    vac::Vector{Float64}
 end
 
 
@@ -84,6 +89,7 @@ Skyrmion(
     Fpi,
     ee,
     false,
+    vac,
 )
 
 Skyrmion(
@@ -101,8 +107,120 @@ Skyrmion(
     Fpi,
     ee,
     false,
+    vac,
 )
 
+"""
+    save_skyrmion(skyrmion::Skyrmion, path, overwrite, additional_metadata)
+
+Save a skyrmion to a folder at `path`. If `overwrite` is `true`, function will delete the given
+folder (if valid Skyrmion3D output) and replace with new data. User can specify additional metadata
+by specifying a dict `additional_metadata`.
+
+See also [`load_skyrmion`](@ref). 
+
+"""
+function save_skyrmion(skyrmion, path; additional_metadata = Dict(), overwrite = false)
+
+    if (overwrite == false) & isdir(path)
+        @warn "Folder already exists. To overwrite pass `overwrite = true` to the save funciton."
+        return
+    end
+
+    # Be careful when deleting - only delete a folder that looks like a Skyrmions3D output
+    if overwrite == true
+        rm(joinpath(path, "metadata.toml"))
+        rm(joinpath(path, "pion_field.h5"))
+        rm(path, recursive = false)
+    end
+
+    mkdir(path)
+
+    grid_metadata = Dict(
+        "lp" => skyrmion.grid.lp,
+        "ls" => skyrmion.grid.ls,
+        "boundary_conditions" => skyrmion.grid.boundary_conditions,
+    )
+
+    skyrmion_metadata = Dict(
+        "grid" => grid_metadata,
+        "vac" => skyrmion.vac,
+        "Fpi" => skyrmion.Fpi,
+        "ee" => skyrmion.ee,
+        "mpi" => skyrmion.mpi,
+        "physical" => skyrmion.physical,
+        "additional_metadata" => additional_metadata,
+    )
+
+    open(joinpath(path, "metadata.toml"), "w") do io
+        TOML.print(io, skyrmion_metadata)
+    end
+
+    h5open(joinpath(path, "pion_field.h5"), "w") do file
+        dataset = create_dataset(
+            file,
+            "pion_field",
+            datatype(eltype(skyrmion.pion_field)),
+            dataspace(size(skyrmion.pion_field)),
+            compress = 6,
+            chunk = (size(skyrmion.pion_field)[1], size(skyrmion.pion_field)[2], 1, 1),
+        )
+        write(dataset, skyrmion.pion_field)
+    end
+
+end
+
+"""
+    load_skyrmion(path)
+
+Loads a Skyrmion, which has been previously saved in `path`. Returns the loaded skyrmion.
+
+See also [`save_skyrmion`](@ref). 
+
+"""
+function load_skyrmion(path)
+
+    metadata_path = joinpath(path, "metadata.toml")
+
+    if isfile(metadata_path) == false
+        @warn "No `metadata.toml` file in `path`. Cannot load."
+        return
+    end
+
+    metadata = nothing
+    open(joinpath(path, "metadata.toml"), "r") do io
+        metadata = TOML.parse(io)
+    end
+
+    lp = metadata["grid"]["lp"]
+    ls = metadata["grid"]["ls"]
+    boundary_conditions = metadata["grid"]["boundary_conditions"]
+
+    vac = metadata["vac"]
+    mpi = metadata["mpi"]
+    ee = metadata["ee"]
+    Fpi = metadata["Fpi"]
+    physical = metadata["physical"]
+
+    loaded_skyrmion = Skyrmion(
+        lp,
+        ls,
+        boundary_conditions = boundary_conditions,
+        mpi = mpi,
+        ee = ee,
+        Fpi = Fpi,
+        vac = vac,
+    )
+
+    set_physical!(loaded_skyrmion, physical)
+    set_boundary_conditions!(loaded_skyrmion, boundary_conditions)
+    pion_field = h5read(joinpath(path, "pion_field.h5"), "pion_field")
+    loaded_skyrmion.pion_field = pion_field
+
+    return loaded_skyrmion
+
+
+end
 
 """
     get_field(skyrmion)
@@ -172,7 +290,7 @@ end
 
 
 
-function set_bounary_conditions!(sk, boundary_conditions)
+function set_boundary_conditions!(sk, boundary_conditions)
 
     sk.grid.boundary_conditions = boundary_conditions
     sk.grid.sum_grid = sum_grid(sk.grid.lp, boundary_conditions)
@@ -192,7 +310,7 @@ function set_periodic!(sk)
 
     sk.grid.dirichlet = false
 
-    set_bounary_conditions!(sk, "periodic")
+    set_boundary_conditions!(sk, "periodic")
 
     println("Periodic boundary conditions activated")
 
@@ -201,15 +319,14 @@ end
 """
     set_neumann!(skyrmion::Skyrmion)
 
-
-Sets the `skyrmion` to have Dirichlet boundary conditions.
+Sets the `skyrmion` to have Neumann boundary conditions.
 
 """
 function set_neumann!(sk)
 
     sk.grid.dirichlet = false
 
-    set_bounary_conditions!(sk, "neumann")
+    set_boundary_conditions!(sk, "neumann")
 
     println("Neumann boundary conditions activated")
 
@@ -225,11 +342,8 @@ function set_dirichlet!(sk)
 
     sk.grid.dirichlet = true
 
-    sk.grid.boundary_conditions = "dirichlet"
-    sk.grid.sum_grid = sum_grid(sk.grid.lp, sk.grid.boundary_conditions)
-
-    set_dirichlet_boudary!(sk)
-    println("Dirichlet boundary conditions activated")
+    set_boundary_conditions!(sk, "dirichlet")
+    set_dirichlet_vacuum!(sk)
 
 end
 
@@ -270,12 +384,7 @@ Also used to turn off physical units by setting `is_physical=false`.
 The physical energy unit is ``\\frac{F_\\pi}{4e}`` MeV and the physical length unit is ``\\frac{2\\hbar}{e F_\\pi}`` fm (where ``\\hbar \\approx 197.327`` MeV fm is the reduced Planck constant).  
 
 """
-function set_physical!(
-    skyrmion,
-    physical;
-    Fpi = skyrmion.Fpi,
-    ee = skyrmion.ee,
-)
+function set_physical!(skyrmion, physical; Fpi = skyrmion.Fpi, ee = skyrmion.ee)
 
     skyrmion.physical = physical
 

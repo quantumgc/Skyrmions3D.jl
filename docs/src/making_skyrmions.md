@@ -1,4 +1,4 @@
-# Making Skyrmions
+# Make, save and load Skyrmions
 
 Skyrmions in Skyrmions3D are represented by the `Skyrmion` struct. This contains all the information needed to reproduce the skyrmion: it's pion field, grid, pion mass etc. You can create a Skyrmion by passing some of these parameters, for example
 
@@ -71,9 +71,31 @@ adhm_data[3,2] = Quaternion(-1.0,0.0,0.0,0.0)*lam/sqrt(2)
 make_ADHM!(my_skyrmion, adhm_data)
 ```
 
+## Save your Skyrmion
 
+Once you've created your skyrmion, you can save a copy of it in a folder. This folder will contain
+the pion fields in the [`HDF5` format](https://en.wikipedia.org/wiki/Hierarchical_Data_Format). These files
+can be read by all popular programming languages, and allows for excellent compression. In addition we
+save a human-readable `metadata.toml` file, containing the metadata associated with the Skyrmion, such as
+it's grid properties. Overall the folder structure is
 
+``` bash
+my_output_folder/
+    pion_field.h5
+    metadata.toml
+```
 
+To save your skyrmion, simply run
 
+``` julia
+save_skyrmion(my_skyrmion, path="path/to/my_output_folder")
+```
 
+By default, this function will not overwrite existing folders. You can add additional metadata by passing
+a dictionary to the `additional_metadata` argument. Read more in the API.
 
+To load a save Skyrion, use the `load_skyrmion` function:
+
+``` julia
+loaded_skyrmion = load_skyrmion("path/to/my_output_folder")
+```

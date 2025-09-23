@@ -12,6 +12,7 @@ Private = false
 ```
 
 ## Grid
+
 ```@autodocs
 Modules = [Skyrmions3D]
 Pages   = ["grid.jl"]

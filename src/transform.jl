@@ -80,8 +80,6 @@ function translate_sk(skyrmion; X = [0.0, 0.0, 0.0])
 
     sky_temp = deepcopy(skyrmion)
 
-    vac = [0.0, 0.0, 0.0, 1.0]
-
     ϕinterp = quadratic_spline_interpolation(skyrmion.pion_field, x)
 
     for a = 1:4, k = 1:lp[3], j = 1:lp[2], i = 1:lp[1]
@@ -94,7 +92,7 @@ function translate_sk(skyrmion; X = [0.0, 0.0, 0.0])
             sky_temp.pion_field[i, j, k, a] =
                 ϕinterp[a](x[1][i] - X[1], x[2][j] - X[2], x[3][k] - X[3])
         else
-            sky_temp.pion_field[i, j, k, a] = vac[a]
+            sky_temp.pion_field[i, j, k, a] = skyrmion.vac[a]
         end
     end
 
@@ -114,7 +112,7 @@ See also [`translate_sk`](@ref).
 """
 function translate_sk!(skyrmion; X = [0.0, 0.0, 0.0])
 
-    tempsk = translate_sk(skyrmion, X=X)
+    tempsk = translate_sk(skyrmion, X = X)
     skyrmion.pion_field .= tempsk.pion_field
 
 end
@@ -129,7 +127,7 @@ See also [`isorotate_sk`](@ref).
 """
 function isorotate_sk!(skyrmion; theta = 0, n = [0, 0, 1])
 
-    tempsk = isorotate_sk(skyrmion, theta=theta, n=n)
+    tempsk = isorotate_sk(skyrmion, theta = theta, n = n)
     skyrmion.pion_field .= tempsk.pion_field
 
 end
@@ -187,7 +185,7 @@ See also [`rotate_sk`](@ref).
 """
 function rotate_sk!(skyrmion; theta = 0, n = [0, 0, 1])
 
-    tempsk = rotate_sk(skyrmion, theta=theta, n=n)
+    tempsk = rotate_sk(skyrmion, theta = theta, n = n)
     skyrmion.pion_field .= tempsk.pion_field
 
 end
@@ -215,8 +213,6 @@ function rotate_sk(skyrmion; theta = 0, n = [0, 0, 1])
 
     sky_temp = deepcopy(skyrmion)
 
-    vac = [0.0, 0.0, 0.0, 1.0]
-
     ϕinterp = quadratic_spline_interpolation(skyrmion.pion_field, x)
 
     for i = 1:lp[1], j = 1:lp[2], k = 1:lp[3]
@@ -231,7 +227,7 @@ function rotate_sk(skyrmion; theta = 0, n = [0, 0, 1])
             end
         else
             for a = 1:4
-                sky_temp.pion_field[i, j, k, a] = vac[a]
+                sky_temp.pion_field[i, j, k, a] = skyrmion.vac[a]
             end
         end
     end
@@ -270,7 +266,9 @@ function center_skyrmion!(sk; steps = 10, tolerance = 1e-9)
 
 end
 
-function set_dirichlet_boudary!(sk; vac = [0.0, 0.0, 0.0, 1.0])
+function set_dirichlet_vacuum!(sk)
+
+    vac = sk.vac
 
     for i = 1:sk.grid.lp[1], j = 1:sk.grid.lp[2]
         sk.pion_field[i, j, 1, :] .= vac
@@ -298,16 +296,14 @@ end
 """
     evaluate_sk(skyrmion, y)
 
-Evaluates the Skyrme field at the spatial position `y`.
+Evaluates the Skyrme field at the spatial position `y`, using a quadratic B-spline interpolation method.
 
 See also [`quadratic_spline_interpolation`](@ref). 
-
 """
 function evaluate_sk(skyrmion, y)
 
     x = skyrmion.grid.x
-    vac = [0.0, 0.0, 0.0, 1.0]
-    phi=vac
+    phi=skyrmion.vac
 
     phiinterp = quadratic_spline_interpolation(skyrmion.pion_field, x)
 
