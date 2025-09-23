@@ -111,30 +111,30 @@ Skyrmion(
 )
 
 """
-    save_skyrmion(skyrmion::Skyrmion, folder, overwrite, additional_metadata)
+    save_skyrmion(skyrmion::Skyrmion, path, overwrite, additional_metadata)
 
-Save a skyrmion to a folder `folder`. If `overwrite` is `true`, function will delete the given
+Save a skyrmion to a folder at `path`. If `overwrite` is `true`, function will delete the given
 folder (if valid Skyrmion3D output) and replace with new data. User can specify additional metadata
 by specifying a dict `additional_metadata`.
 
 See also [`load_skyrmion`](@ref). 
 
 """
-function save_skyrmion(skyrmion, folder; additional_metadata = Dict(), overwrite = false)
+function save_skyrmion(skyrmion, path; additional_metadata = Dict(), overwrite = false)
 
-    if (overwrite == false) & isdir(folder)
+    if (overwrite == false) & isdir(path)
         @warn "Folder already exists. To overwrite pass `overwrite = true` to the save funciton."
         return
     end
 
     # Be careful when deleting - only delete a folder that looks like a Skyrmions3D output
     if overwrite == true
-        rm(joinpath(folder, "metadata.toml"))
-        rm(joinpath(folder, "pion_field.h5"))
-        rm(folder, recursive = false)
+        rm(joinpath(path, "metadata.toml"))
+        rm(joinpath(path, "pion_field.h5"))
+        rm(path, recursive = false)
     end
 
-    mkdir(folder)
+    mkdir(path)
 
     grid_metadata = Dict(
         "lp" => skyrmion.grid.lp,
@@ -152,11 +152,11 @@ function save_skyrmion(skyrmion, folder; additional_metadata = Dict(), overwrite
         "additional_metadata" => additional_metadata,
     )
 
-    open(joinpath(folder, "metadata.toml"), "w") do io
+    open(joinpath(path, "metadata.toml"), "w") do io
         TOML.print(io, skyrmion_metadata)
     end
 
-    h5open(joinpath(folder, "pion_field.h5"), "w") do file
+    h5open(joinpath(path, "pion_field.h5"), "w") do file
         dataset = create_dataset(
             file,
             "pion_field",
@@ -171,24 +171,24 @@ function save_skyrmion(skyrmion, folder; additional_metadata = Dict(), overwrite
 end
 
 """
-    load_skyrmion(folder)
+    load_skyrmion(path)
 
-Loads a Skyrmion, which has been previously saved in `folder`. Returns the loaded skyrmion.
+Loads a Skyrmion, which has been previously saved in `path`. Returns the loaded skyrmion.
 
 See also [`save_skyrmion`](@ref). 
 
 """
-function load_skyrmion(folder)
+function load_skyrmion(path)
 
-    metadata_path = joinpath(folder, "metadata.toml")
+    metadata_path = joinpath(path, "metadata.toml")
 
     if isfile(metadata_path) == false
-        @warn "No `metadata.toml` file in `folder`. Cannot load."
+        @warn "No `metadata.toml` file in `path`. Cannot load."
         return
     end
 
     metadata = nothing
-    open(joinpath(folder, "metadata.toml"), "r") do io
+    open(joinpath(path, "metadata.toml"), "r") do io
         metadata = TOML.parse(io)
     end
 
@@ -214,7 +214,7 @@ function load_skyrmion(folder)
 
     set_physical!(loaded_skyrmion, physical)
     set_boundary_conditions!(loaded_skyrmion, boundary_conditions)
-    pion_field = h5read(joinpath(folder, "pion_field.h5"), "pion_field")
+    pion_field = h5read(joinpath(path, "pion_field.h5"), "pion_field")
     loaded_skyrmion.pion_field = pion_field
 
     return loaded_skyrmion
@@ -384,12 +384,7 @@ Also used to turn off physical units by setting `is_physical=false`.
 The physical energy unit is ``\\frac{F_\\pi}{4e}`` MeV and the physical length unit is ``\\frac{2\\hbar}{e F_\\pi}`` fm (where ``\\hbar \\approx 197.327`` MeV fm is the reduced Planck constant).  
 
 """
-function set_physical!(
-    skyrmion,
-    physical;
-    Fpi = skyrmion.Fpi,
-    ee = skyrmion.ee,
-)
+function set_physical!(skyrmion, physical; Fpi = skyrmion.Fpi, ee = skyrmion.ee)
 
     skyrmion.physical = physical
 

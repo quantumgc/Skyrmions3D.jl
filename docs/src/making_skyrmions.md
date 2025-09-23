@@ -74,13 +74,13 @@ make_ADHM!(my_skyrmion, adhm_data)
 ## Save your Skyrmion
 
 Once you've created your skyrmion, you can save a copy of it in a folder. This folder will contain
-the pion fields in the. [`HDF5` format](https://en.wikipedia.org/wiki/Hierarchical_Data_Format). These files
+the pion fields in the [`HDF5` format](https://en.wikipedia.org/wiki/Hierarchical_Data_Format). These files
 can be read by all popular programming languages, and allows for excellent compression. In addition we
 save a human-readable `metadata.toml` file, containing the metadata associated with the Skyrmion, such as
 it's grid properties. Overall the folder structure is
 
 ``` bash
-output_folder/
+my_output_folder/
     pion_field.h5
     metadata.toml
 ```
@@ -88,7 +88,7 @@ output_folder/
 To save your skyrmion, simply run
 
 ``` julia
-save_skyrmion(my_skyrmion, folder="my_beautiful_skyrmion")
+save_skyrmion(my_skyrmion, path="path/to/my_output_folder")
 ```
 
 By default, this function will not overwrite existing folders. You can add additional metadata by passing
@@ -97,5 +97,5 @@ a dictionary to the `additional_metadata` argument. Read more in the API.
 To load a save Skyrion, use the `load_skyrmion` function:
 
 ``` julia
-loaded_skyrmion = load_skyrmion("my_beautiful_skyrmion")
+loaded_skyrmion = load_skyrmion("path/to/my_output_folder")
 ```
