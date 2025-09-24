@@ -88,6 +88,7 @@ I think your baryon number is 3.0. If it is not, include '; baryon=B' in your ar
 
 Note: By convention the "bang" character `!` at the end of function means it is a _modifiying function_.
 So we are modifiying `b_3_tet_skyrmion`, not creating a new skyrmion.
+Indeed, every non-trivial skyrmion defined using Skyrmions3D is constructed this way: first creating a vacuum skyrmion on some underlying grid, then giving it some structure through a modifying function.
 
 The [`make_rational_map!`](@ref) function tries to estimate the degree of the rational map and warns us that it is doing so.
 Note that we can explicitly set the baryon number with the keyword argument `baryon = B` if it doesn't choose the baryon number you were expecting.
@@ -98,7 +99,7 @@ julia> Energy(b_3_tet_skyrmion)
 3.684801341143756
 ```
 [`make_rational_map!`](@ref) also accepts custom profile functions, though when doing this the baryon number is not automatically calculated.
-For example,
+For example:
 ```jldoctest rat_map_w_prof
 julia> b_4_cube_skyrmion = Skyrmion(30,0.2);
 
