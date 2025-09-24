@@ -78,23 +78,23 @@ A complex rational map is defined by two complex valued polynomials; we call the
 Given these polynomials, we can create a skyrmion from the rational map approximation [houghtonRationalMapsMonopoles1998](@cite).
 For example, we can make a new skyrmion and give it the structure of the baryon number 3 tetrahedral skyrmion as follows:
 ```jldoctest rat_map
-julia> b_1_tet_skyrmion = Skyrmion(30,0.2);
+julia> b_3_tet_skyrmion = Skyrmion(30,0.2);
 
 julia> p3(z) = sqrt(3)*im*z^2 - 1; q3(z) = z*(z^2 - sqrt(3)*im);
 
-julia> make_rational_map!(b_1_tet_skyrmion, p3, q3)
+julia> make_rational_map!(b_3_tet_skyrmion, p3, q3)
 I think your baryon number is 3.0. If it is not, include '; baryon=B' in your argument.
 ```
 
 Note: By convention the "bang" character `!` at the end of function means it is a _modifiying function_.
-So we are modifiying `b_1_tet_skyrmion`, not creating a new skyrmion.
+So we are modifiying `b_3_tet_skyrmion`, not creating a new skyrmion.
 
 The [`make_rational_map!`](@ref) function tries to estimate the degree of the rational map and warns us that it is doing so.
 Note that we can explicitly set the baryon number with the keyword argument `baryon = B` if it doesn't choose the baryon number you were expecting.
 [`make_rational_map!`](@ref) then tries to find a reasonable profile function for the skyrmion.
 If this all worked, you should get a sensible output when you compute the energy of the skyrmion.
 ```jldoctest rat_map
-julia> Energy(b_1_tet_skyrmion)
+julia> Energy(b_3_tet_skyrmion)
 3.684801341143756
 ```
 
@@ -154,8 +154,8 @@ adhm_data[2,2] = Quaternion(0.0,1.0,0.0,0.0)*lam/sqrt(2)
 adhm_data[3,1] = Quaternion(0.0,1.0,0.0,0.0)*lam/sqrt(2)
 adhm_data[3,2] = Quaternion(-1.0,0.0,0.0,0.0)*lam/sqrt(2)
 
-b_1_tor_skyrmion = Skyrmion(30,0.2);
-make_ADHM!(b_1_tor_skyrmion, adhm_data)
+b_2_tor_skyrmion = Skyrmion(30,0.2);
+make_ADHM!(b_2_tor_skyrmion, adhm_data)
 
 # output
 
@@ -164,7 +164,7 @@ make_ADHM!(b_1_tor_skyrmion, adhm_data)
 
 Again, we can calculate its energy.
 ```jldoctest adhm_data
-julia> Energy(b_1_tor_skyrmion)
+julia> Energy(b_2_tor_skyrmion)
 2.3885880515156876
 ```
 
