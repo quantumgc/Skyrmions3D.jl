@@ -1,10 +1,3 @@
-```@meta
-DocTestSetup = quote
-    using Skyrmions3D
-end
-ShareDefaultModule = true
-```
-
 # Make, save and load Skyrmions
 
 Skyrmions in Skyrmions3D are represented by the [`Skyrmion`](@ref) struct.
@@ -12,6 +5,8 @@ This contains all the information needed to reproduce the skyrmion: it's pion fi
 For example, we can create a vacuum skyrmion on a `30×30×30` grid with lattice spacing `0.2`.
 
 ```jldoctest basic_init
+julia> using Skyrmions3D
+
 julia> my_skyrmion = Skyrmion(30,0.2);
 
 julia> overview(my_skyrmion)
