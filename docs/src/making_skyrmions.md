@@ -97,25 +97,19 @@ If this all worked, you should get a sensible output when you compute the energy
 julia> Energy(b_3_tet_skyrmion)
 3.684801341143756
 ```
+[`make_rational_map!`](@ref) also accepts custom profile functions, though when doing this the baryon number is not automatically calculated.
+For example,
+```jldoctest rat_map_w_prof
+julia> b_4_cube_skyrmion = Skyrmion(30,0.2);
 
-```@meta
-DocTestSetup = quote
-    using Skyrmions3D
-    function hedgehog_profile(x)
-        x
-    end
-end
-```
-[`make_rational_map!`](@ref) also accepts custom profile functions.
-For example, suppose the function `hedgehog_profile` is a numerical approximation for the profile function of the `B=1` hedgehog skyrmion.
-```jldoctest rat_map_prof
-julia> b_1_hedgehog = Skyrmion(30, 0.2);
+julia> p4(z) = z^4 + 2.0*sqrt(3.0)*im*z^2 + 1.0; q4(z) = z^4 - 2.0*sqrt(3.0)*im*z^2 + 1.0;
 
-julia> make_rational_map!(b_1_hedgehog, (z -> z), (z -> 1))
-I think your baryon number is 1.0. If it is not, include '; baryon=B' in your argument.
+julia> f4(r) = pi*exp(-(r .^ 3) ./ 12.0); # our custom profile function
 
-julia> Energy(b_1_hedgehog)
-1.2941351906556215
+julia> make_rational_map!(b_4_cube_skyrmion, p4, q4, f4, baryon = 4);
+
+julia> Energy(b_4_cube_skyrmion)
+5.238411177507044
 ```
 
 ```@meta
