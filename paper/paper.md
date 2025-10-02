@@ -13,7 +13,7 @@ authors:
     orcid: 0000-0002-6597-2463
     affiliation: 2
   - name: Cas G. Chaudhuri
-    orcird: 0009-0001-4281-2766
+    orcid: 0009-0001-4281-2766
     affiliation: 2
 affiliations:
  - name: University of Edinburgh, United Kingdom
