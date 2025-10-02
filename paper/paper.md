@@ -57,10 +57,11 @@ The remarkable fact about the Skyrme model is that, despite its simplicity, the 
 
 Explicit formula for skyrmion fields which attain the minimal energy are not known. Moreover, though (local) minimisers of the energy functional are given by solutions to the Euler-Lagrange PDE, attempting to solve these using standard Julia PDE implementations (such as those from SciML) with topologically non-trivial boundary conditions is not feasible, and so one must work with well-motivated approximations where the toplogical constraints are imposed from the outset. Two common approaches to skyrmions arising from the study of other topological solitons are the rational map approximation (motivated by monopoles) and the Atiyah-Manton or ADHM approximation (motivated by instantons): both are implemented in `Skyrmions3D.jl`. In addition, `Skyrmions3D.jl` has been written in a flexible manner such that it is simple to implement new approximations within the existing framework, see for example [@Cork2025]. 
 
-There are a variety of ways on can manipulate a skyrmion. 
+There are a variety of ways one can manipulate a skyrmion. 
 
 - One can translate and (iso)rotate a skyrmion, for example by sending $U(x)$ to $U(x-x_0)$ when translating by fixed $x_0 \in \mathbb{R}^3$.
 - One can combine two skyrmions via the product ansatz.
+
 Moreover, there are a variety of properties of skyrmions which one may naturally wish to compute, such as the total energy, or visualisations of the skyrmion baryon density. `Skyrmions3D.jl` has the ability to compute a large number of such properties which are commonly used, and supports interactive plotting via `Makie`. Furthermore, the ability to export skyrmion fields for plotting with other software is supported by saving the pion field in HDF5 format.
 
 Comprehensive documentation for `Skyrmions3D.jl` is provided via a webpage, including an API, examples of how to use key features, and guidance on requesting features or raising bug reports. In addition, this webpage provides a list of known publications which have used and cited `Skyrmions3D.jl`. 
