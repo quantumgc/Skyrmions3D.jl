@@ -21,6 +21,7 @@ TOML = "fa267f1f-6049-4f14-aa54-33bafae1ed76"
 
 [compat]
 CairoMakie = "0.12.12"
+GeometryBasics = "0.4.11"
 HDF5 = "0.17.2"
 JuliaFormatter = "2.1.6"
 Quaternions = "0.7.6"
