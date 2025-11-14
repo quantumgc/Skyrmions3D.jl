@@ -20,8 +20,9 @@ StaticArrays = "90137ffa-7385-5640-81b9-e52037218182"
 TOML = "fa267f1f-6049-4f14-aa54-33bafae1ed76"
 
 [compat]
-CairoMakie = "0.12.12"
-GeometryBasics = "0.4.11"
+Makie = "0.24.6"
+CairoMakie = "0.15.6"
+GeometryBasics = "0.5"
 HDF5 = "0.17.2"
 JuliaFormatter = "2.1.6"
 Quaternions = "0.7.6"
