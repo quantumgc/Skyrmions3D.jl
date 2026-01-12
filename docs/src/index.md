@@ -40,6 +40,10 @@ I have also made [one](https://youtu.be/TI5huk6Rqos) or [two](https://youtu.be/H
 
 ### Authors
 
-I am Chris Halcrow, a research software engineer at the University of Edinburgh.
-I would love there to be more authors of this package.
+The current core contributors are:
+ - [Chris Halcrow](https://github.com/chrishalcrow), a research software engineer at the University of Edinburgh,
+ - [Linden Disney-Hogg](https://disneyhogg.github.io/personal_webpage/index.html), a research fellow at the University of Leeds,
+ - [Cas G. Chaudhuri](https://gchaudhuri.dev/), a PhD student at the University of Leeds. 
+
+We would love there to be more authors of this package.
 Please join in.
