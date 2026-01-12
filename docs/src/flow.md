@@ -1,6 +1,7 @@
 # Flow
 
-After generating an initial Skyrmion, you can evolve it in a number of ways. Currently, only energy minimising flows are implemented in `Skyrmions3D`. 
+After generating an initial Skyrmion, you can evolve it in a number of ways.
+Currently, only energy minimising flows are implemented in `Skyrmions3D`.
 
 ## Gradient Flow
 
@@ -26,7 +27,8 @@ You can apply a gradient flow like so:
 gradient_flow!(skyrmion)
 ```
 
-When you just pass the skyrmion, the algorithm will get applied for one step with an automatically chosen time-step. If you'd like to run the gradient flow for a bit longer (advised!) or for your own custom time-step, you can as follows:
+When you just pass the skyrmion, the algorithm will get applied for one step with an automatically chosen time-step.
+If you'd like to run the gradient flow for a bit longer (advised!) or for your own custom time-step, you can as follows:
 
 ```julia
 gradient_flow!(skyrmion, steps=100, dt=0.0001)
@@ -52,13 +54,16 @@ Note that, depending on your boundary conditions and lattice size, your specifie
 
 ## Arrested Newton Flow
 
-A more efficient algorith is the Newton Flow method. This models the second order differential equation
+A more efficient algorithm is the Newton Flow method.
+This models the second order differential equation
 
 ```math
 \ddot{\boldsymbol{\pi}} = -\frac{\delta E}{\delta \boldsymbol{\pi}}
 ```
 
-But whenever the energy increases, the velocity is reset to zero. This has two advantages: usually, the minimum is found in less flow time; and the second-order time evolution allows for a larger time-step. Flow using Arrested Newton as follows:
+But whenever the energy increases, the velocity is reset to zero.
+This has two advantages: usually, the minimum is found in less flow time; and the second-order time evolution allows for a larger time-step.
+Flow using Arrested Newton as follows:
 
 ```julia
 arrested_newton_flow!(skyrmion, tolerance=0.01)

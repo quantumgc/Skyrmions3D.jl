@@ -1,6 +1,8 @@
 # Publications citing Skyrmions3D
 
-Below is an (incomplete) list of publications that cite Skyrmions3D. The publications are listed in chronological order. See the section below on how to cite Skyrmions3D in your publication. 
+Below is an (incomplete) list of publications that cite Skyrmions3D.
+The publications are listed in chronological order.
+See the section below on how to cite Skyrmions3D in your publication.
 
 If you have just cited Skyrmions3D in your publication, please consider adding it to this list by [raising a pull request](https://github.com/chrishalcrow/Skyrmions3D.jl/pulls), or get in touch so we can add it. 
 
@@ -12,4 +14,5 @@ If you have just cited Skyrmions3D in your publication, please consider adding i
 
 # How to cite Skyrmions3D
 
-In the root directory of the repository you will see a file called `CITATION.cff`, which provides the necessary details to cite the project. GitHub provides the functionality to export this citation in APA or BibTeX format, [see more here](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-citation-files). 
+In the root directory of the repository you will see a file called `CITATION.cff`, which provides the necessary details to cite the project.
+GitHub provides the functionality to export this citation in APA or BibTeX format, [see more here](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-citation-files).
