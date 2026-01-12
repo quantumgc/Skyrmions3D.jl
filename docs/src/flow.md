@@ -54,7 +54,7 @@ Note that, depending on your boundary conditions and lattice size, your specifie
 
 ## Arrested Newton Flow
 
-A more efficient algorith is the Newton Flow method.
+A more efficient algorithm is the Newton Flow method.
 This models the second order differential equation
 
 ```math
