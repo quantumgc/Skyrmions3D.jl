@@ -27,7 +27,7 @@ This might appear under your cell in Jupyter Notebook, pop-up in a seperate wind
 Hopefully whatever happens, you can see the following plot:
 
 ```@raw html
-<img src="../../../src/images/visualisation/B3_field.png>
+<img src="../../../src/images/visualisation/B3_field.png">
 ```
 
 ## Saving figures
